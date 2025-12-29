@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const axios = require("axios");
 
 const app = express();
 
@@ -72,4 +73,5 @@ const PORT = process.env.PORT || 3500;
 app.listen(PORT, () => {
     console.log("Server running on port", PORT);
 });
+
 
