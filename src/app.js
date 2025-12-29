@@ -1,18 +1,17 @@
 require("dotenv").config();
 
-const express = require("express")
+const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const axios = require("axios");
 
-const app = express()
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb+srv://abdulrahmanDB:abdza2008@cluster0.5oeekdm.mongodb.net/myAppDB")
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("MongoDB Connected ✅"))
-    .catch(err => console.log(err));
+    .catch(err => console.log("Mongo Error ❌", err));
 
 const schema = new mongoose.Schema({
     Name: String,
@@ -23,7 +22,7 @@ const schema = new mongoose.Schema({
 
 const Joke = mongoose.model("jokes", schema);
 
-app.post("/creat", async (req, res) => {
+app.post("/create", async (req, res) => {
     try {
         const addJoke = new Joke({
             Name: req.body.name,
@@ -33,11 +32,11 @@ app.post("/creat", async (req, res) => {
         });
 
         await addJoke.save();
-
         res.status(200).json({ Success: true });
+
     } catch (err) {
         console.error(err);
-        res.status(400).json({ Success: false, e: "تعذر اضافة" });
+        res.status(400).json({ Success: false, e: "تعذر الإضافة" });
     }
 });
 
@@ -45,18 +44,11 @@ app.get("/jokes", async (req, res) => {
     try {
         const type = req.query.type;
 
-        let jokes;
+        const jokes = (type && type !== "any")
+            ? await Joke.find({ Type: type }).sort({ DateOfAdd: -1 })
+            : await Joke.find({}).sort({ DateOfAdd: -1 });
 
-        if (type && type !== "any") {
-            jokes = await Joke.find({ Type: type }).sort({ DateOfAdd: -1 });
-        } else {
-            jokes = await Joke.find({}).sort({ DateOfAdd: -1 });
-        }
-
-        res.json({
-            Success: true,
-            jokes
-        });
+        res.json({ Success: true, jokes });
 
     } catch (err) {
         console.error(err);
@@ -65,10 +57,10 @@ app.get("/jokes", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.json({ nothing: "hiii" })
-})
+    res.json({ status: "Server running 🚀" });
+});
 
 const PORT = process.env.PORT || 3500;
-
-app.listen(PORT);
-
+app.listen(PORT, () => {
+    console.log("Server running on port", PORT);
+});
