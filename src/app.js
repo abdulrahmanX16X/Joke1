@@ -10,7 +10,7 @@ const app = express()
 app.use(express.json())
 app.use(cors());
 
-mongoose.connect(mongodb+srv://abdulrahmanDB:abdza2008@cluster0.5oeekdm.mongodb.net/myAppDB)
+mongoose.connect("mongodb+srv://abdulrahmanDB:abdza2008@cluster0.5oeekdm.mongodb.net/myAppDB")
     .then(() => console.log("MongoDB Connected ✅"))
     .catch(err => console.log(err));
 
@@ -71,3 +71,4 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 3500;
 
 app.listen(PORT);
+
