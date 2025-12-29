@@ -25,6 +25,12 @@ const Joke = mongoose.model("jokes", schema);
 
 app.post("/create", async (req, res) => {
     try {
+        if (req.body.name.toLowerCase() === "dev") {
+          return res.status(200).json({
+            Success: false,
+            e: "هذا الاسم مخصص لمطور الموقع فقط"
+    });
+        }
         const addJoke = new Joke({
             Name: req.body.name,
             Body: req.body.body,
@@ -73,5 +79,6 @@ const PORT = process.env.PORT || 3500;
 app.listen(PORT, () => {
     console.log("Server running on port", PORT);
 });
+
 
 
