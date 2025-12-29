@@ -60,7 +60,16 @@ app.get("/", (req, res) => {
     res.json({ status: "Server running 🚀" });
 });
 
+async function call(){
+    await axios.get("https://joke1.onrender.com/")
+}
+
+setInterval(() => {
+  call();
+}, 60000);
+
 const PORT = process.env.PORT || 3500;
 app.listen(PORT, () => {
     console.log("Server running on port", PORT);
 });
+
