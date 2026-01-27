@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 });
 
 async function call(){
-    await axios.get("https://joke1.onrender.com/")
+    await axios.get("https://joke1-vedz.onrender.com/")
 }
 
 setInterval(() => {
@@ -79,6 +79,7 @@ const PORT = process.env.PORT || 3500;
 app.listen(PORT, () => {
     console.log("Server running on port", PORT);
 });
+
 
 
 
