@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 });
 
 async function call(){
-    await axios.get("https://joke1-vedz.onrender.com/")
+    await axios.get("https://joke1.onrender.com/")
 }
 
 setInterval(() => {
